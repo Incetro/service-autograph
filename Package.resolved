@@ -1,0 +1,88 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Autograph",
+        "repositoryURL": "https://github.com/Incetro/autograph",
+        "state": {
+          "branch": "main",
+          "revision": "3f5690142a5b8dd4c4bac02e747afba1ada294a9",
+          "version": null
+        }
+      },
+      {
+        "package": "Files",
+        "repositoryURL": "https://github.com/johnsundell/files.git",
+        "state": {
+          "branch": null,
+          "revision": "d273b5b7025d386feef79ef6bad7de762e106eaf",
+          "version": "4.2.0"
+        }
+      },
+      {
+        "package": "ShellOut",
+        "repositoryURL": "https://github.com/JohnSundell/ShellOut.git",
+        "state": {
+          "branch": null,
+          "revision": "e1577acf2b6e90086d01a6d5e2b8efdaae033568",
+          "version": "2.3.0"
+        }
+      },
+      {
+        "package": "source-kitten-adapter",
+        "repositoryURL": "https://github.com/Incetro/source-kitten-adapter",
+        "state": {
+          "branch": null,
+          "revision": "f5ba0792326ff2f4b0fea7db328c8a41717d043c",
+          "version": "0.0.5"
+        }
+      },
+      {
+        "package": "SourceKitten",
+        "repositoryURL": "https://github.com/jpsim/SourceKitten",
+        "state": {
+          "branch": null,
+          "revision": "7f4be006fe73211b0fd9666c73dc2f2303ffa756",
+          "version": "0.31.0"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
+        "state": {
+          "branch": null,
+          "revision": "9564d61b08a5335ae0a36f789a7d71493eacadfc",
+          "version": "0.3.2"
+        }
+      },
+      {
+        "package": "SWXMLHash",
+        "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
+        "state": {
+          "branch": null,
+          "revision": "9183170d20857753d4f331b0ca63f73c60764bf3",
+          "version": "5.0.2"
+        }
+      },
+      {
+        "package": "Synopsis",
+        "repositoryURL": "https://github.com/Incetro/synopsis",
+        "state": {
+          "branch": "main",
+          "revision": "ff9efa1dc4d6c24ff2520c74e7344e7bcf603365",
+          "version": null
+        }
+      },
+      {
+        "package": "Yams",
+        "repositoryURL": "https://github.com/jpsim/Yams.git",
+        "state": {
+          "branch": null,
+          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
+          "version": "4.0.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
