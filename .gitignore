@@ -6,6 +6,8 @@ Sources/sandbox/Pods
 Sources/sandbox/Podfile.lock
 Sources/sandbox/Sandbox.xcworkspace
 
+.swiftpm/
+
 ## User settings
 xcuserdata/
 
