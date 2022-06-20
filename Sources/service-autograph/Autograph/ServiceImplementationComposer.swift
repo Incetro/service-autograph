@@ -632,7 +632,10 @@ public final class ServiceImplementationComposer {
                 transport: HTTPTransport
             ) {
                 self.dao = dao
-                super.init(transport: transport)
+                super.init(
+                    baseURL: Constants.Network.apiURL,
+                    transport: transport
+                )
             }
             """
         }
@@ -675,7 +678,7 @@ public final class ServiceImplementationComposer {
         let header = headerComment(
             filename: "\(service.name).swift",
             projectName: projectName,
-            imports: ["HTTPTransport"]
+            imports: ["ServiceCore", "HTTPTransport"]
         )
 
         let serviceEntityStr = service.isGroupService ? """
