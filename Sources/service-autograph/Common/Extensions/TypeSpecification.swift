@@ -60,7 +60,7 @@ extension TypeSpecification {
         case error
     }
 
-    func inderected(_ deepness: Int = 8) -> TypeSpecification {
+    func inderected(_ deepness: Int = 4) -> TypeSpecification {
         func inderectedType(type: TypeSpecification,_ deepness: Int = 3, currentDeepness: Int = 0) -> Self {
             while currentDeepness < deepness {
                 switch type {
