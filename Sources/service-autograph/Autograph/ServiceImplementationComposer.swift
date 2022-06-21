@@ -63,10 +63,10 @@ public final class ServiceImplementationComposer {
     ) -> (type: String, content: String)? {
 
         let encodableArguments = arguments.filter {
-            specifications.isEncodable($0.type.unwrapped.verse)
+            specifications.isEncodable($0.type.indirected().unwrapped.verse)
         }
         let nonEncodableArguments = arguments.filter {
-            !specifications.isEncodable($0.type.unwrapped.verse)
+            !specifications.isEncodable($0.type.indirected().unwrapped.verse)
         }
         let encodableParameters: [String] = encodableArguments.compactMap {
             if let annotationValue = $0.annotationValue(type) {
