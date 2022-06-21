@@ -52,13 +52,42 @@ public final class ServiceImplementationComposer {
 
     /// Composes request parameters property declaration
     /// - Parameters:
-    ///   - parametersList: request parameters list
+    ///   - specifications: Synopsis specifications of our parsed code
+    ///   - arguments: current method arguments
     ///   - type: parameters type
     /// - Returns: request parameters property declaration
     private func composeRequestParameters(
-        from parametersList: [String],
+        forSpecifications specifications: Specifications,
+        arguments: [ArgumentSpecification],
         withType type: String
     ) -> (type: String, content: String)? {
+
+        let encodableArguments = arguments.filter {
+            specifications.isEncodable($0.type.unwrapped.verse)
+        }
+        let nonEncodableArguments = arguments.filter {
+            !specifications.isEncodable($0.type.unwrapped.verse)
+        }
+        let encodableParameters: [String] = encodableArguments.compactMap {
+            if let annotationValue = $0.annotationValue(type) {
+                let argument = "\"\(annotationValue)\": "
+                switch $0.type {
+                case .optional:
+                    return argument + "try \($0.bodyName)?.encoded()"
+                default:
+                    return argument + "try \($0.bodyName).encoded()"
+                }
+            }
+            return nil
+        }
+        let nonEncodableParameters: [String] =  nonEncodableArguments.compactMap {
+            if let annotationValue = $0.annotationValue(type) {
+                return "\"\(annotationValue)\": " + $0.bodyName
+            }
+            return nil
+        }
+        let parametersList = encodableParameters + nonEncodableParameters
+
         guard !parametersList.isEmpty else { return nil }
         return (type, """
 
@@ -301,7 +330,7 @@ public final class ServiceImplementationComposer {
             requestParametersSequenceStr += "\n"
         }
         return """
-        createCall { () -> Result<\(payloadType), Error> in
+        createCall {
             \(requestParametersSequenceStr)\(httpRequestInit.indent)
 
                     let result = self.transport.send(request: request)
@@ -425,7 +454,7 @@ public final class ServiceImplementationComposer {
             content = "fatalError(\"service-autograph cannot define what to do with current method\")"
         }
         return """
-        createCall { () -> Result<\(payloadType), Error> in
+        createCall {
         \(content.indent(3))
                 }
 
@@ -450,28 +479,21 @@ public final class ServiceImplementationComposer {
         cancelable: Bool
     ) -> String {
 
-        let jsonRequestParameters: (type: String, content: String)?
-
 //        if arguments[0].type.verse == "UserPlainObject" {
 //            print(arguments)
 //            print(arguments[0].type.verse)
 //            print(specifications.isEncodable(arguments[0].type.verse))
 //        }
 
-        if arguments.count == 1, specifications.isEncodable(arguments[0].type.verse) {
-            jsonRequestParameters = composeEncodedRequestParameters(
-                from: arguments[0].name,
-                withType: "json"
-            )
-        } else {
-            jsonRequestParameters = composeRequestParameters(
-                from: arguments.annotatedWith("json"),
-                withType: "json"
-            )
-        }
+        let jsonRequestParameters = composeRequestParameters(
+            forSpecifications: specifications,
+            arguments: arguments.filter { $0.annotationValue("json") != nil },
+            withType: "json"
+        )
 
         let queryRequestParameters = composeRequestParameters(
-            from: arguments.annotatedWith("query"),
+            forSpecifications: specifications,
+            arguments: arguments.filter { $0.annotationValue("query") != nil },
             withType: "query"
         )
 
@@ -675,11 +697,18 @@ public final class ServiceImplementationComposer {
                 result + method.verse.indent + (implementedMethods.last == method ? "\n" : "\n\n")
             }
 
+        var imports = ["ServiceCore", "HTTPTransport"]
+
+        if methodsStr.contains(".encoded()") || methodsStr.contains(".decoded()") {
+            imports.append("Codex")
+        }
+
         let header = headerComment(
             filename: "\(service.name).swift",
             projectName: projectName,
-            imports: ["ServiceCore", "HTTPTransport"]
+            imports: imports
         )
+
 
         let serviceEntityStr = service.isGroupService ? """
 
