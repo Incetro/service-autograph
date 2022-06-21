@@ -479,8 +479,6 @@ public final class ServiceImplementationComposer {
         cancelable: Bool
     ) -> String {
 
-//        let jsonRequestParameters: (type: String, content: String)?
-
 //        if arguments[0].type.verse == "UserPlainObject" {
 //            print(arguments)
 //            print(arguments[0].type.verse)
