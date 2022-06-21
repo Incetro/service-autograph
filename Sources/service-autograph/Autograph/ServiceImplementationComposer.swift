@@ -82,13 +82,7 @@ public final class ServiceImplementationComposer {
         }
         let nonEncodableParameters: [String] =  nonEncodableArguments.compactMap {
             if let annotationValue = $0.annotationValue(type) {
-                let argument = "\"\(annotationValue)\": "
-                switch $0.type {
-                case .string, .optional(wrapped: .string):
-                    return argument + $0.bodyName
-                default:
-                    return argument + "\"\\(\($0.bodyName))\""
-                }
+                return "\"\(annotationValue)\": " + $0.bodyName
             }
             return nil
         }
