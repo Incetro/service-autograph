@@ -60,20 +60,20 @@ extension TypeSpecification {
         case error
     }
 
-    func inderected(_ deepness: Int = 4) -> TypeSpecification {
-        func inderectedType(type: TypeSpecification,_ deepness: Int = 3, currentDeepness: Int = 0) -> Self {
+    func indirected(_ deepness: Int = 4) -> TypeSpecification {
+        func indirectedType(type: TypeSpecification,_ deepness: Int = 3, currentDeepness: Int = 0) -> Self {
             while currentDeepness < deepness {
                 switch type {
                 case .optional(let wrapped):
-                    return inderectedType(type: wrapped, deepness, currentDeepness: currentDeepness + 1)
+                    return indirectedType(type: wrapped, deepness, currentDeepness: currentDeepness + 1)
                 case .array(let element):
-                    return inderectedType(type: element, deepness, currentDeepness: currentDeepness + 1)
+                    return indirectedType(type: element, deepness, currentDeepness: currentDeepness + 1)
                 default:
                     return type
                 }
             }
             return type
         }
-        return inderectedType(type: self, deepness, currentDeepness: 0)
+        return indirectedType(type: self, deepness, currentDeepness: 0)
     }
 }
