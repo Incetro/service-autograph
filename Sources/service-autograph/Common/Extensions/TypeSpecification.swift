@@ -59,4 +59,21 @@ extension TypeSpecification {
         case cancelableServiceCall(payloadType: TypeSpecification)
         case error
     }
+
+    func inderected(_ deepness: Int = 8) -> TypeSpecification {
+        func inderectedType(type: TypeSpecification,_ deepness: Int = 3, currentDeepness: Int = 0) -> Self {
+            while currentDeepness < deepness {
+                switch type {
+                case .optional(let wrapped):
+                    return inderectedType(type: wrapped, deepness, currentDeepness: currentDeepness + 1)
+                case .array(let element):
+                    return inderectedType(type: element, deepness, currentDeepness: currentDeepness + 1)
+                default:
+                    return type
+                }
+            }
+            return type
+        }
+        return inderectedType(type: self, deepness, currentDeepness: 0)
+    }
 }
