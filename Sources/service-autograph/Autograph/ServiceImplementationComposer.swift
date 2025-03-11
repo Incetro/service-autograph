@@ -697,7 +697,7 @@ public final class ServiceImplementationComposer {
                 result + method.verse.indent + (implementedMethods.last == method ? "\n" : "\n\n")
             }
 
-        var imports = ["ServiceCore", "HTTPTransport"]
+        var imports = ["ServiceCore", "HTTPTransport", "Foundation"]
 
         if methodsStr.contains(".encoded()") || methodsStr.contains(".decoded()") {
             imports.append("Codex")
